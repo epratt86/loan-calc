@@ -1,8 +1,17 @@
 //form submission
-document.getElementById("loan-form").addEventListener("submit", calcResults);
+document.getElementById("loan-form").addEventListener("submit", function(e) {
+  //hide results
+  document.getElementById("results").style.display = "none";
+  //show loading gif
+  document.getElementById("loading").style.display = "block";
+  //let loader spin for 2 seconds before calcResults is ran
+  setTimeout(calcResults, 2000);
+
+  e.preventDefault();
+});
 
 //calcResults
-function calcResults(e) {
+function calcResults() {
   //start off by grabbing elements from form fields
   const amount = document.getElementById("amount");
   const interest = document.getElementById("interest");
@@ -25,16 +34,23 @@ function calcResults(e) {
     monthlyPayment.value = monthly.toFixed(2); //toFixed adds the .00
     totalPayment.value = (monthly * calculatedPayments).toFixed(2);
     totalInterest.value = (monthly * calculatedPayments - principal).toFixed(2);
+
+    //show results
+    document.getElementById("results").style.display = "block";
+    //hide loading gif
+    document.getElementById("loading").style.display = "none";
   } else {
     //display a 'flash' message in the DOM
     showError("Please enter a number in all fields");
   }
-
-  e.preventDefault();
 }
 
 //showError function
 function showError(errorMessage) {
+  //hide results
+  document.getElementById("results").style.display = "none";
+  //hide loading gif
+  document.getElementById("loading").style.display = "none";
   //create a div to contain the alert
   const errorDiv = document.createElement("div");
 
